@@ -1,10 +1,32 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { AuthProvider, useAuth } from './context/AuthContext';
+import AnimatedBackground from './components/AnimatedBackground';
+import Login from './components/Login';
+import Register from './components/Register';
+import Dashboard from './components/Dashboard';
+import './styles.css';
+
+function Screens() {
+  const { user } = useAuth();
+  const [view, setView] = useState('login');
+
+  if (user) {
+    return <Dashboard />;
+  }
+
+  return view === 'register' ? (
+    <Register onSwitchToLogin={() => setView('login')} />
+  ) : (
+    <Login onSwitchToRegister={() => setView('register')} />
+  );
+}
 
 function App() {
   return (
-    <div style={{ fontFamily: 'sans-serif', textAlign: 'center', marginTop: '4rem' }}>
-      <h1>Hello from ParaBank UI!</h1>
-    </div>
+    <AuthProvider>
+      <AnimatedBackground />
+      <Screens />
+    </AuthProvider>
   );
 }
 
