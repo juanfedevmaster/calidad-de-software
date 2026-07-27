@@ -7,8 +7,16 @@ import Dashboard from './components/Dashboard';
 import './styles.css';
 
 function Screens() {
-  const { user } = useAuth();
+  const { user, initializing } = useAuth();
   const [view, setView] = useState('login');
+
+  if (initializing) {
+    return (
+      <div className="auth-screen">
+        <p className="loading-text">Cargando...</p>
+      </div>
+    );
+  }
 
   if (user) {
     return <Dashboard />;
