@@ -6,8 +6,9 @@ export default function Login({ onSwitchToRegister }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [submitting, setSubmitting] = useState(false);
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault();
 
     if (!username.trim() || !password) {
@@ -15,7 +16,10 @@ export default function Login({ onSwitchToRegister }) {
       return;
     }
 
-    const result = login({ username, password });
+    setSubmitting(true);
+    const result = await login({ username, password });
+    setSubmitting(false);
+
     if (!result.ok) {
       setError(result.error);
       return;
@@ -63,8 +67,8 @@ export default function Login({ onSwitchToRegister }) {
             </p>
           )}
 
-          <button type="submit" className="btn-primary">
-            Iniciar sesión
+          <button type="submit" className="btn-primary" disabled={submitting}>
+            {submitting ? 'Iniciando sesión...' : 'Iniciar sesión'}
           </button>
         </form>
 
