@@ -1,111 +1,129 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import {
+  login as apiLogin,
+  register as apiRegister,
+  getBalance as apiGetBalance,
+  changePassword as apiChangePassword,
+} from '../api/authApi';
 
 const AuthContext = createContext(null);
 
-const USERS_KEY = 'parabank_users';
-const SESSION_KEY = 'parabank_session';
+const TOKEN_KEY = 'parabank_token';
+const USER_KEY = 'parabank_user';
 
-function loadUsers() {
+function loadStoredUser() {
   try {
-    const raw = localStorage.getItem(USERS_KEY);
-    return raw ? JSON.parse(raw) : {};
+    const raw = localStorage.getItem(USER_KEY);
+    return raw ? JSON.parse(raw) : null;
   } catch {
-    return {};
+    return null;
   }
 }
 
-function saveUsers(users) {
-  localStorage.setItem(USERS_KEY, JSON.stringify(users));
+function persistSession(token, user) {
+  localStorage.setItem(TOKEN_KEY, token);
+  localStorage.setItem(USER_KEY, JSON.stringify(user));
 }
 
-function randomBalance() {
-  return Math.round((3000 + Math.random() * 15000) * 100) / 100;
-}
-
-function randomAccountNumber() {
-  let value = '';
-  for (let i = 0; i < 10; i += 1) {
-    value += Math.floor(Math.random() * 10);
-  }
-  return value;
+function clearSession() {
+  localStorage.removeItem(TOKEN_KEY);
+  localStorage.removeItem(USER_KEY);
 }
 
 export function AuthProvider({ children }) {
-  const [users, setUsers] = useState(loadUsers);
-  const [currentUser, setCurrentUser] = useState(() => {
-    const savedUsername = localStorage.getItem(SESSION_KEY);
-    const allUsers = loadUsers();
-    return savedUsername && allUsers[savedUsername] ? savedUsername : null;
-  });
+  const [token, setToken] = useState(() => localStorage.getItem(TOKEN_KEY));
+  const [user, setUser] = useState(loadStoredUser);
+  const [initializing, setInitializing] = useState(Boolean(localStorage.getItem(TOKEN_KEY)));
 
+  const applyAuthResponse = useCallback((authResponse) => {
+    const nextUser = {
+      name: authResponse.name,
+      username: authResponse.username,
+      accountNumber: authResponse.accountNumber,
+      balance: authResponse.balance,
+    };
+    persistSession(authResponse.token, nextUser);
+    setToken(authResponse.token);
+    setUser(nextUser);
+  }, []);
+
+  // On load, if there's a stored token, confirm it's still valid against the
+  // backend and refresh the balance instead of trusting the cached copy.
   useEffect(() => {
-    saveUsers(users);
-  }, [users]);
+    const storedToken = localStorage.getItem(TOKEN_KEY);
+    if (!storedToken) {
+      setInitializing(false);
+      return;
+    }
+
+    apiGetBalance(storedToken)
+      .then((balanceResponse) => {
+        setUser((prev) => {
+          const next = {
+            ...(prev || {}),
+            accountNumber: balanceResponse.accountNumber,
+            balance: balanceResponse.balance,
+          };
+          localStorage.setItem(USER_KEY, JSON.stringify(next));
+          return next;
+        });
+      })
+      .catch(() => {
+        clearSession();
+        setToken(null);
+        setUser(null);
+      })
+      .finally(() => setInitializing(false));
+  }, []);
 
   const register = useCallback(
-    ({ name, username, password }) => {
-      const key = username.trim().toLowerCase();
-      if (!key) {
-        return { ok: false, error: 'El usuario es requerido.' };
+    async ({ name, username, password }) => {
+      try {
+        const response = await apiRegister({ name, username, password });
+        applyAuthResponse(response);
+        return { ok: true };
+      } catch (err) {
+        return { ok: false, error: err.message };
       }
-      if (users[key]) {
-        return { ok: false, error: 'Ese usuario ya existe.' };
-      }
-
-      const newUser = {
-        name: name.trim(),
-        password,
-        balance: randomBalance(),
-        accountNumber: randomAccountNumber(),
-      };
-
-      setUsers((prev) => ({ ...prev, [key]: newUser }));
-      localStorage.setItem(SESSION_KEY, key);
-      setCurrentUser(key);
-      return { ok: true };
     },
-    [users],
+    [applyAuthResponse],
   );
 
   const login = useCallback(
-    ({ username, password }) => {
-      const key = username.trim().toLowerCase();
-      const user = users[key];
-      if (!user || user.password !== password) {
-        return { ok: false, error: 'Usuario o contraseña incorrectos.' };
+    async ({ username, password }) => {
+      try {
+        const response = await apiLogin({ username, password });
+        applyAuthResponse(response);
+        return { ok: true };
+      } catch (err) {
+        return { ok: false, error: err.message };
       }
-      localStorage.setItem(SESSION_KEY, key);
-      setCurrentUser(key);
-      return { ok: true };
     },
-    [users],
+    [applyAuthResponse],
   );
 
   const logout = useCallback(() => {
-    localStorage.removeItem(SESSION_KEY);
-    setCurrentUser(null);
+    clearSession();
+    setToken(null);
+    setUser(null);
   }, []);
 
   const changePassword = useCallback(
-    ({ currentPassword, newPassword }) => {
-      if (!currentUser) {
-        return { ok: false, error: 'No hay sesión activa.' };
+    async ({ currentPassword, newPassword }) => {
+      try {
+        await apiChangePassword(token, { currentPassword, newPassword });
+        return { ok: true };
+      } catch (err) {
+        return { ok: false, error: err.message };
       }
-      const user = users[currentUser];
-      if (user.password !== currentPassword) {
-        return { ok: false, error: 'La contraseña actual no es correcta.' };
-      }
-      setUsers((prev) => ({
-        ...prev,
-        [currentUser]: { ...prev[currentUser], password: newPassword },
-      }));
-      return { ok: true };
     },
-    [currentUser, users],
+    [token],
   );
 
   const value = {
-    user: currentUser ? { username: currentUser, ...users[currentUser] } : null,
+    user,
+    token,
+    initializing,
     register,
     login,
     logout,
