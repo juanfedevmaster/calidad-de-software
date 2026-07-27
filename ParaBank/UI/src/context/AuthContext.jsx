@@ -69,9 +69,6 @@ export function AuthProvider({ children }) {
         });
       })
       .catch(() => {
-        clearSession();
-        setToken(null);
-        setUser(null);
       })
       .finally(() => setInitializing(false));
   }, []);
@@ -103,7 +100,6 @@ export function AuthProvider({ children }) {
   );
 
   const logout = useCallback(() => {
-    clearSession();
     setToken(null);
     setUser(null);
   }, []);

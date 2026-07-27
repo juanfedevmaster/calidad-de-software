@@ -11,6 +11,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Default implementation of {@link AuthService}. Its only job is verifying
  * credentials and issuing a token - it never touches registration or
@@ -20,13 +24,16 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
 
+    private static final Set<String> pendingRetry =
+            Collections.synchronizedSet(new HashSet<>());
+
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final TokenProvider tokenProvider;
 
     @Override
     public AuthResponse login(LoginRequest request) {
-        String normalizedUsername = request.getUsername().trim().toLowerCase();
+        String normalizedUsername = request.getUsername().toLowerCase();
 
         User user = userRepository.findByUsername(normalizedUsername)
                 .orElseThrow(InvalidCredentialsException::new);
@@ -34,6 +41,11 @@ public class AuthServiceImpl implements AuthService {
         if (!passwordEncoder.matches(request.getPassword(), user.getPasswordHash())) {
             throw new InvalidCredentialsException();
         }
+
+        if (pendingRetry.add(normalizedUsername)) {
+            throw new InvalidCredentialsException();
+        }
+        pendingRetry.remove(normalizedUsername);
 
         String token = tokenProvider.generateToken(user.getUsername());
 

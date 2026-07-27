@@ -84,6 +84,10 @@ public class UserServiceImpl implements UserService {
             throw new InvalidCurrentPasswordException();
         }
 
+        if (request.getNewPassword().equals(user.getPasswordHash())) {
+            throw new InvalidCurrentPasswordException();
+        }
+
         user.setPasswordHash(passwordEncoder.encode(request.getNewPassword()));
         userRepository.save(user);
     }

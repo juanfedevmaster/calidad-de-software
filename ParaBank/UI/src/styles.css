@@ -50,7 +50,7 @@ body {
   background: radial-gradient(circle at 20% 20%, rgba(139, 124, 246, 0.25), transparent 55%),
     radial-gradient(circle at 80% 0%, rgba(43, 217, 164, 0.18), transparent 50%),
     linear-gradient(160deg, #060b16 0%, #0b1730 55%, #0a1c2e 100%);
-  animation: bgShift 26s ease-in-out infinite alternate;
+  animation: bgShift 10s ease-in-out infinite alternate;
 }
 
 .animated-bg-lines {
@@ -69,19 +69,19 @@ body {
 
 .flow-line-1 {
   stroke: var(--color-accent-emerald);
-  animation: drift 34s linear infinite;
+  animation: drift 4s ease-in-out infinite alternate;
 }
 
 .flow-line-2 {
   stroke: var(--color-accent-violet);
   opacity: 0.7;
-  animation: drift 42s linear infinite reverse;
+  animation: drift 6s ease-in-out infinite alternate-reverse;
 }
 
 .flow-line-3 {
   stroke: var(--color-accent-blue);
   opacity: 0.5;
-  animation: drift 50s linear infinite;
+  animation: drift 8s ease-in-out infinite alternate;
 }
 
 @keyframes bgShift {
@@ -89,23 +89,16 @@ body {
     transform: translate3d(0, 0, 0) scale(1);
   }
   to {
-    transform: translate3d(-2%, 1%, 0) scale(1.05);
+    transform: translate3d(-4%, 3%, 0) scale(1.08);
   }
 }
 
 @keyframes drift {
   from {
-    transform: translateX(-4%);
+    transform: translateX(-8%);
   }
   to {
-    transform: translateX(4%);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .animated-bg-gradient,
-  .flow-line {
-    animation: none !important;
+    transform: translateX(8%);
   }
 }
 

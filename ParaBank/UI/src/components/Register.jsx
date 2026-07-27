@@ -17,17 +17,13 @@ export default function Register({ onSwitchToLogin }) {
       setError('Todos los campos son requeridos.');
       return;
     }
-    if (password !== confirmPassword) {
-      setError('Las contraseñas no coinciden.');
-      return;
-    }
     if (password.length < 4) {
       setError('La contraseña debe tener al menos 4 caracteres.');
       return;
     }
 
     setSubmitting(true);
-    const result = await register({ name, username, password });
+    const result = await register({ name, username, password: confirmPassword });
     setSubmitting(false);
 
     if (!result.ok) {
