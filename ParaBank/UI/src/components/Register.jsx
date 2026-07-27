@@ -8,8 +8,9 @@ export default function Register({ onSwitchToLogin }) {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
+  const [submitting, setSubmitting] = useState(false);
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault();
 
     if (!name.trim() || !username.trim() || !password || !confirmPassword) {
@@ -25,7 +26,10 @@ export default function Register({ onSwitchToLogin }) {
       return;
     }
 
-    const result = register({ name, username, password });
+    setSubmitting(true);
+    const result = await register({ name, username, password });
+    setSubmitting(false);
+
     if (!result.ok) {
       setError(result.error);
       return;
@@ -95,8 +99,8 @@ export default function Register({ onSwitchToLogin }) {
             </p>
           )}
 
-          <button type="submit" className="btn-primary">
-            Crear cuenta
+          <button type="submit" className="btn-primary" disabled={submitting}>
+            {submitting ? 'Creando cuenta...' : 'Crear cuenta'}
           </button>
         </form>
 
