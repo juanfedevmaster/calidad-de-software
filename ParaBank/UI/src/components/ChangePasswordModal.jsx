@@ -8,8 +8,9 @@ export default function ChangePasswordModal({ onClose }) {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault();
 
     if (!currentPassword || !newPassword || !confirmPassword) {
@@ -25,7 +26,10 @@ export default function ChangePasswordModal({ onClose }) {
       return;
     }
 
-    const result = changePassword({ currentPassword, newPassword });
+    setSubmitting(true);
+    const result = await changePassword({ currentPassword, newPassword });
+    setSubmitting(false);
+
     if (!result.ok) {
       setError(result.error);
       return;
@@ -90,11 +94,11 @@ export default function ChangePasswordModal({ onClose }) {
             )}
 
             <div className="modal-actions">
-              <button type="button" className="btn-ghost" onClick={onClose}>
+              <button type="button" className="btn-ghost" onClick={onClose} disabled={submitting}>
                 Cancelar
               </button>
-              <button type="submit" className="btn-primary">
-                Guardar
+              <button type="submit" className="btn-primary" disabled={submitting}>
+                {submitting ? 'Guardando...' : 'Guardar'}
               </button>
             </div>
           </form>
