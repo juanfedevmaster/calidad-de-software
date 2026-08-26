@@ -4,18 +4,18 @@
    Signature: motivo de "ojal de etiqueta colgante" en tarjetas y precios.
    ========================================================================== */
 :root {
-    --paper: #F5F6F1;
-    --paper-raised: #FFFFFF;
-    --ink: #1E2A22;
-    --ink-soft: #4E5C52;
-    --forest: #2F4A3B;
-    --forest-dark: #1F332A;
-    --moss: #7C9885;
-    --moss-line: #D8DED5;
-    --amber: #E2A63B;
-    --amber-dark: #C68A24;
-    --rust: #B54B2E;
-    --rust-dark: #983D24;
+    --green-50: #F3F6F1;
+    --green-100: #E3EBDD;
+    --green-200: #CBDBBF;
+    --green-300: #AECB9C;
+    --green-400: #8FB87A;
+    --green-500: #71A362;
+    --green-600: #568C50;
+    --green-700: #437242;
+    --green-800: #365A38;
+    --green-900: #2A452C;
+    --green-950: #1E3221;
+    --green-1000: #132018;
 
     --font-display: "Space Grotesk", "Segoe UI", sans-serif;
     --font-body: "Inter", "Segoe UI", sans-serif;
@@ -36,8 +36,8 @@
 
 body {
     font-family: var(--font-body);
-    background-color: var(--paper);
-    color: var(--ink);
+    background-color: var(--green-100);
+    color: var(--green-1000);
     line-height: 1.5;
 }
 
@@ -49,7 +49,7 @@ h1, h2, h3 {
 /* ---------- Header ---------- */
 header {
     padding: 1rem 2rem;
-    background-color: var(--forest);
+    background-color: var(	--green-900);
     color: #fff;
     display: flex;
     justify-content: space-between;
@@ -70,7 +70,7 @@ header {
 .brand-mark {
     width: 30px;
     height: 30px;
-    color: var(--amber);
+    color: var(----green-300);
     display: inline-flex;
 }
 
@@ -104,9 +104,9 @@ header h1 {
 }
 
 .cart-link:hover {
-    background-color: var(--amber);
-    border-color: var(--amber);
-    color: var(--forest-dark);
+    background-color: var(----green-300);
+    border-color: var(----green-300);
+    color: var(	--green-950);
 }
 
 /* ---------- Shared: eyebrow / page heading ---------- */
@@ -117,7 +117,7 @@ header h1 {
     font-weight: 600;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: var(--forest);
+    color: var(	--green-900);
     background-color: rgba(47, 74, 59, 0.08);
     padding: 0.3rem 0.65rem;
     border-radius: 999px;
@@ -146,11 +146,11 @@ header h1 {
     font-size: 2.4rem;
     font-weight: 700;
     margin-bottom: 1rem;
-    color: var(--forest-dark);
+    color: var(	--green-950);
 }
 
 .hero p {
-    color: var(--ink-soft);
+    color: var(--green-700);
     margin-bottom: 1.75rem;
     line-height: 1.6;
     font-size: 1.05rem;
@@ -166,8 +166,8 @@ header h1 {
 }
 
 .highlight {
-    background-color: var(--paper-raised);
-    border: 1px solid var(--moss-line);
+    background-color: var(--green-50);
+    border: 1px solid var(	--green-200);
     border-radius: var(--radius-m);
     padding: 1.5rem 1.25rem;
     text-align: center;
@@ -178,18 +178,18 @@ header h1 {
     font-family: var(--font-mono);
     font-size: 0.75rem;
     font-weight: 600;
-    color: var(--amber-dark);
+    color: var(----green-300-dark);
     margin-bottom: 0.5rem;
 }
 
 .highlight h3 {
     font-size: 1.05rem;
     margin-bottom: 0.4rem;
-    color: var(--forest-dark);
+    color: var(	--green-950);
 }
 
 .highlight p {
-    color: var(--ink-soft);
+    color: var(--green-700);
     font-size: 0.92rem;
 }
 
@@ -205,8 +205,8 @@ header h1 {
 
 .product-card {
     position: relative;
-    background-color: var(--paper-raised);
-    border: 1px solid var(--moss-line);
+    background-color: var(--green-50);
+    border: 1px solid var(	--green-200);
     border-radius: var(--radius-m);
     padding: 1.25rem 1.25rem 1.5rem;
     text-align: left;
@@ -225,47 +225,44 @@ header h1 {
     width: 10px;
     height: 10px;
     border-radius: 50%;
-    background-color: var(--paper);
+    background-color: var(--green-100);
     border: 1.5px solid var(--moss);
 }
 
 .product-card:hover {
     transform: translateY(-3px);
     box-shadow: var(--shadow-card-hover);
-    border-color: var(--amber);
+    border-color: var(----green-300);
 }
 
-.product-image-placeholder {
+.product-image {
     height: 130px;
-    background: repeating-linear-gradient(135deg, #EDEFE8, #EDEFE8 8px, #E4E7DD 8px, #E4E7DD 16px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--ink-soft);
-    font-family: var(--font-display);
-    font-weight: 600;
-    font-size: 0.85rem;
-    text-align: center;
-    padding: 0.5rem;
+    width: 100%;
+    object-fit: contain;
+    background-color: #EDEFE8;
     margin-bottom: 0.85rem;
     border-radius: var(--radius-s);
 }
 
-.product-image-placeholder.large {
+.product-image.large {
     height: 280px;
-    font-size: 1.05rem;
     max-width: 420px;
     border-radius: var(--radius-m);
+}
+
+.product-image.product-image-error {
+    object-fit: none;
+    background: repeating-linear-gradient(135deg, #EDEFE8, #EDEFE8 8px, #E4E7DD 8px, #E4E7DD 16px);
 }
 
 .product-card h3 {
     font-size: 1rem;
     margin-bottom: 0.3rem;
-    color: var(--forest-dark);
+    color: var(	--green-950);
 }
 
 .product-card p {
-    color: var(--ink-soft);
+    color: var(--green-700);
     font-size: 0.88rem;
 }
 
@@ -273,7 +270,7 @@ header h1 {
 .product-card .price {
     font-family: var(--font-mono);
     font-weight: 600;
-    color: var(--forest);
+    color: var(	--green-900);
     margin-top: 0.6rem;
     display: inline-block;
 }
@@ -288,26 +285,26 @@ header h1 {
 
 .product-info h2 {
     font-size: 1.6rem;
-    color: var(--forest-dark);
+    color: var(	--green-950);
     margin-bottom: 0.5rem;
 }
 
 .product-info p {
-    color: var(--ink-soft);
+    color: var(--green-700);
 }
 
 .product-info .price {
     font-size: 1.4rem;
     font-weight: 600;
     margin: 1rem 0;
-    color: var(--forest);
+    color: var(	--green-900);
 }
 
 /* ---------- Buttons ---------- */
 .btn {
     display: inline-block;
     padding: 0.7rem 1.4rem;
-    background-color: var(--forest);
+    background-color: var(	--green-900);
     color: #fff;
     border-radius: var(--radius-s);
     text-decoration: none;
@@ -320,7 +317,7 @@ header h1 {
 }
 
 .btn:hover {
-    background-color: var(--forest-dark);
+    background-color: var(	--green-950);
 }
 
 .btn:active {
@@ -329,26 +326,26 @@ header h1 {
 
 .btn-secondary {
     background-color: transparent;
-    color: var(--forest);
-    border: 1.5px solid var(--forest);
+    color: var(	--green-900);
+    border: 1.5px solid var(	--green-900);
     margin-top: 1rem;
 }
 
 .btn-secondary:hover {
-    background-color: var(--forest);
+    background-color: var(	--green-900);
     color: #fff;
 }
 
 .btn-danger {
     background-color: transparent;
-    color: var(--rust);
-    border: 1.5px solid var(--rust);
+    color: var(	--green-600);
+    border: 1.5px solid var(	--green-600);
     padding: 0.5rem 0.9rem;
     font-size: 0.85rem;
 }
 
 .btn-danger:hover {
-    background-color: var(--rust);
+    background-color: var(	--green-600);
     color: #fff;
 }
 
@@ -363,7 +360,7 @@ header h1 {
 .add-to-cart-controls input {
     width: 64px;
     padding: 0.55rem;
-    border: 1.5px solid var(--moss-line);
+    border: 1.5px solid var(	--green-200);
     border-radius: var(--radius-s);
     text-align: center;
     font-family: var(--font-mono);
@@ -372,9 +369,9 @@ header h1 {
 
 .add-to-cart-controls input:focus,
 .cart-qty-input:focus {
-    outline: 2px solid var(--amber);
+    outline: 2px solid var(----green-300);
     outline-offset: 1px;
-    border-color: var(--amber);
+    border-color: var(----green-300);
 }
 
 .feedback-message {
@@ -384,11 +381,11 @@ header h1 {
 }
 
 .feedback-message.success {
-    color: var(--forest);
+    color: var(	--green-900);
 }
 
 .feedback-message.error {
-    color: var(--rust);
+    color: var(	--green-600);
 }
 
 /* ---------- Cart & checkout pages ---------- */
@@ -399,8 +396,8 @@ header h1 {
 }
 
 .cart-list {
-    background-color: var(--paper-raised);
-    border: 1px solid var(--moss-line);
+    background-color: var(--green-50);
+    border: 1px solid var(	--green-200);
     border-radius: var(--radius-m);
     padding: 0.5rem 1.25rem;
     box-shadow: var(--shadow-card);
@@ -412,7 +409,7 @@ header h1 {
     align-items: center;
     gap: 1rem;
     padding: 1.1rem 0;
-    border-bottom: 1px solid var(--moss-line);
+    border-bottom: 1px solid var(	--green-200);
 }
 
 .cart-row:last-child {
@@ -421,12 +418,12 @@ header h1 {
 
 .cart-row-info h3 {
     font-size: 1rem;
-    color: var(--forest-dark);
+    color: var(	--green-950);
     margin-bottom: 0.2rem;
 }
 
 .cart-row-info p {
-    color: var(--ink-soft);
+    color: var(--green-700);
     font-size: 0.85rem;
     font-family: var(--font-mono);
 }
@@ -440,7 +437,7 @@ header h1 {
 .cart-qty-input {
     width: 58px;
     padding: 0.45rem;
-    border: 1.5px solid var(--moss-line);
+    border: 1.5px solid var(	--green-200);
     border-radius: var(--radius-s);
     text-align: center;
     font-family: var(--font-mono);
@@ -449,7 +446,7 @@ header h1 {
 .cart-row-subtotal {
     font-family: var(--font-mono);
     font-weight: 600;
-    color: var(--forest);
+    color: var(	--green-900);
     text-align: right;
 }
 
@@ -460,15 +457,15 @@ header h1 {
     font-family: var(--font-mono);
     font-size: 1.15rem;
     font-weight: 600;
-    color: var(--forest-dark);
+    color: var(	--green-950);
     padding: 1.25rem 0.25rem;
     margin-bottom: 1.25rem;
     border-top: 1.5px dashed var(--moss);
 }
 
 .checkout-summary {
-    background-color: var(--paper-raised);
-    border: 1px solid var(--moss-line);
+    background-color: var(--green-50);
+    border: 1px solid var(	--green-200);
     border-radius: var(--radius-m);
     padding: 0.5rem 1.25rem;
     margin-bottom: 0.5rem;
@@ -479,7 +476,7 @@ header h1 {
     display: flex;
     justify-content: space-between;
     padding: 0.75rem 0;
-    border-bottom: 1px solid var(--moss-line);
+    border-bottom: 1px solid var(	--green-200);
     font-family: var(--font-mono);
     font-size: 0.92rem;
 }
@@ -491,20 +488,20 @@ header h1 {
 .order-confirmation {
     text-align: center;
     padding: 2.5rem 1.5rem;
-    background-color: var(--paper-raised);
-    border: 1px solid var(--moss-line);
+    background-color: var(--green-50);
+    border: 1px solid var(	--green-200);
     border-radius: var(--radius-m);
     box-shadow: var(--shadow-card);
 }
 
 .order-confirmation h3 {
-    color: var(--forest);
+    color: var(	--green-900);
     font-size: 1.4rem;
     margin-bottom: 0.6rem;
 }
 
 .order-confirmation p {
-    color: var(--ink-soft);
+    color: var(--green-700);
     margin-bottom: 1.5rem;
 }
 
@@ -543,7 +540,7 @@ header h1 {
         gap: 1rem;
     }
 
-    .product-image-placeholder.large {
+    .product-image.large {
         height: 200px;
         max-width: 100%;
     }

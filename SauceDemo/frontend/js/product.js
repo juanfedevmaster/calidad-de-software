@@ -11,7 +11,7 @@ async function renderProductDetail() {
     try {
         const product = await getProductById(id);
         container.innerHTML = `
-            <div class="product-image-placeholder large">${product.name}</div>
+            <img class="product-image large" src="${product.imageUrl}" alt="${product.name}" onerror="this.onerror=null;this.classList.add('product-image-error');">
             <div class="product-info">
                 <h2>${product.name}</h2>
                 <p>${product.description}</p>

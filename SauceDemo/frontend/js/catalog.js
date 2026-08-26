@@ -13,7 +13,7 @@ async function renderCatalog() {
             card.className = "product-card";
             card.href = `product.html?id=${product.id}`;
             card.innerHTML = `
-                <div class="product-image-placeholder">${product.name}</div>
+                <img class="product-image" src="${product.imageUrl}" alt="${product.name}" loading="lazy" onerror="this.onerror=null;this.classList.add('product-image-error');">
                 <h3>${product.name}</h3>
                 <p>${product.description}</p>
                 <p class="price">${formatCOP(product.price)}</p>
