@@ -14,7 +14,7 @@ async function renderProductDetail() {
             <img class="product-image large" src="${product.imageUrl}" alt="${product.name}" onerror="this.onerror=null;this.classList.add('product-image-error');">
             <div class="product-info">
                 <h2>${product.name}</h2>
-                <p>${product.description}</p>
+                <p>${product.detailDescription}</p>
                 <p class="price">${formatCOP(product.price)}</p>
                 <div class="add-to-cart-controls">
                     <input type="number" id="quantity-input" value="1" min="1">
