@@ -236,17 +236,20 @@ header h1 {
 }
 
 .product-image {
-    height: 130px;
+    aspect-ratio: 1 / 1;
     width: 100%;
     object-fit: contain;
-    background-color: #EDEFE8;
+    padding: 0.75rem;
+    background-color: var(--green-50);
     margin-bottom: 0.85rem;
     border-radius: var(--radius-s);
 }
 
 .product-image.large {
-    height: 280px;
+    aspect-ratio: 1 / 1;
+    width: 100%;
     max-width: 420px;
+    padding: 1.5rem;
     border-radius: var(--radius-m);
 }
 
@@ -541,8 +544,8 @@ header h1 {
     }
 
     .product-image.large {
-        height: 200px;
         max-width: 100%;
+        padding: 1rem;
     }
 
     .add-to-cart-controls {
