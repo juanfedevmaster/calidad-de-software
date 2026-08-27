@@ -28,4 +28,3 @@ yarn-error.log*
 # --- Logs ---
 *.log
 ParaBank/UI/package-lock.json
-SauceDemo/backend/src/main/resources/application.properties
