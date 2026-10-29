@@ -29,3 +29,13 @@ ParaBank/
    ya permitido por CORS del backend).
 
 Más detalle de cada parte en `UI/` y `BackEnd/README.md`.
+
+
+# Selenium
+## Varias lineas de Ejecicion
+export PARABANK_USER="juanfetorres"
+export PARABANK_PASS="Admin123!"
+mvn test -Dgroups=e2e -DexcludedGroups=none
+
+## Una sola sinea de Ejecucion
+PARABANK_USER='juanfetorres' PARABANK_PASS='Admin123!' mvn test -Dgroups=e2e -DexcludedGroups=none
